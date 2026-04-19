@@ -1,47 +1,43 @@
-// Copyright 2021 NNTU-CS
+// Copyright 2025 NNTU-CS
 #ifndef INCLUDE_TSTACK_H_
 #define INCLUDE_TSTACK_H_
 
 template<typename T, int size>
 class TStack {
-  private:
-    T data[size];
-    int topIndex;
+ private:
+  T data[size];
+  int topIndex_;
 
-public:
-    TStack() : topIndex(-1) {}
+ public:
+  TStack() : topIndex_(-1) {}
 
-    void push(const T& value) {
-        if (topIndex < size - 1) {
-            data[++topIndex] = value;
-        }
+  void push(const T& value) {
+    if (topIndex_ < size - 1) {
+      data[++topIndex_] = value;
     }
+  }
 
-    T pop() {
-        if (topIndex >= 0) {
-            return data[topIndex--];
-        }
-        return T();
+  T pop() {
+    if (topIndex_ >= 0) {
+      return data[topIndex_--];
     }
+    return T();
+  }
 
-    T top() const {
-        if (topIndex >= 0) {
-            return data[topIndex];
-        }
-        return T();
+  T top() const {
+    if (topIndex_ >= 0) {
+      return data[topIndex_];
     }
+    return T();
+  }
 
-    bool isEmpty() const {
-        return topIndex == -1;
-    }
+  bool isEmpty() const {
+    return topIndex_ == -1;
+  }
 
-    int size() const {
-        return topIndex + 1;
-    }
-
-    void clear() {
-        topIndex = -1;
-    }
+  int getSize() const {
+    return topIndex_ + 1;
+  }
 };
 
-#endif
+#endif  // INCLUDE_TSTACK_H_
