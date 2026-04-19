@@ -1,6 +1,6 @@
 // Copyright 2025 NNTU-CS
 #include <string>
-#include <map>
+#include <cctype>
 #include "tstack.h"
 
 // Определение приоритетов операторов
@@ -38,26 +38,22 @@ std::string infx2pstfx(const std::string& inf) {
                 result += inf[i];
                 ++i;
             }
-            result += ' ';  // разделитель между операндами
-            continue;  // i уже на следующем символе
+            result += ' ';
+            continue;
         }
 
         // Если открывающая скобка
         if (c == '(') {
             operators.push(c);
-        }
-        // Если закрывающая скобка
-        else if (c == ')') {
+        } else if (c == ')') {  // Если закрывающая скобка
             while (!operators.isEmpty() && operators.top() != '(') {
                 result += operators.pop();
                 result += ' ';
             }
             if (!operators.isEmpty() && operators.top() == '(') {
-                operators.pop();  // удаляем '('
+                operators.pop();
             }
-        }
-        // Если оператор
-        else if (isOperator(c)) {
+        } else if (isOperator(c)) {  // Если оператор
             while (!operators.isEmpty() && operators.top() != '(' &&
                    getPriority(operators.top()) >= getPriority(c)) {
                 result += operators.pop();
@@ -65,7 +61,6 @@ std::string infx2pstfx(const std::string& inf) {
             }
             operators.push(c);
         }
-        // Пропускаем пробелы и другие символы
         ++i;
     }
 
@@ -84,7 +79,7 @@ std::string infx2pstfx(const std::string& inf) {
 }
 
 // Вычисление выражения, записанного в постфиксной форме
-int eval(const std::string& pref /*post*/) {
+int eval(const std::string& pref) {
     TStack<int, 100> operands;
     int i = 0;
     int len = pref.length();
@@ -101,12 +96,10 @@ int eval(const std::string& pref /*post*/) {
             }
             operands.push(number);
             continue;
-        }
-        // Если оператор
-        else if (isOperator(c)) {
-            if (operands.size() >= 2) {
-                int b = operands.pop();  // правый операнд
-                int a = operands.pop();  // левый операнд
+        } else if (isOperator(c)) {  // Если оператор
+            if (operands.getSize() >= 2) {
+                int b = operands.pop();
+                int a = operands.pop();
                 int result = 0;
 
                 switch (c) {
@@ -120,13 +113,12 @@ int eval(const std::string& pref /*post*/) {
                         result = a * b;
                         break;
                     case '/':
-                        result = a / b;  // целочисленное деление
+                        result = a / b;
                         break;
                 }
                 operands.push(result);
             }
         }
-        // Пропускаем пробелы
         ++i;
     }
 
